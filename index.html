@@ -1,0 +1,1393 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тёплый вечер — Выберите, чем заняться сегодня</title>
+    <style>
+        /* CSS Reset & Variables for Lamp Light Aesthetic */
+        :root {
+            --bg-deep: #1A1C24;
+            /* deep evening blue */
+            --bg-card: #252836;
+            --bg-card-hover: #2D3142;
+            --accent-orange: #E07A5F;
+            /* muted orange */
+            --accent-orange-hover: #CC6B50;
+            --accent-beige: #F4F1DE;
+            /* warm beige */
+            --text-main: #F4F1DE;
+            --text-muted: #A0AAB2;
+            --soft-brown: #8D6B54;
+            --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+        }
+
+        body {
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Utility classes */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: rgba(26, 28, 36, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(244, 241, 222, 0.1);
+            padding: 15px 0;
+            transition: var(--transition);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--accent-orange);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--accent-beige);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-orange);
+        }
+
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--accent-beige);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .hero {
+            padding: 80px 0 60px;
+            text-align: center;
+            background: radial-gradient(circle at 50% 30%, rgba(224, 122, 95, 0.15) 0%, transparent 60%);
+        }
+
+        .hero h1 {
+            font-size: clamp(2.2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: var(--accent-beige);
+            letter-spacing: -0.5px;
+        }
+
+        .hero p {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+
+        .hero-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 15px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero-card-btn {
+            background-color: var(--bg-card);
+            border: 1px solid rgba(244, 241, 222, 0.1);
+            border-radius: 14px;
+            padding: 20px 15px;
+            color: var(--text-main);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            box-shadow: var(--card-shadow);
+        }
+
+        .hero-card-btn span {
+            font-size: 2rem;
+        }
+
+        .hero-card-btn:hover {
+            background-color: var(--accent-orange);
+            transform: translateY(-5px);
+            border-color: var(--accent-orange);
+            color: #fff;
+        }
+
+        .about {
+            padding: 60px 0;
+            background-color: rgba(37, 40, 54, 0.4);
+            border-top: 1px solid rgba(244, 241, 222, 0.05);
+            border-bottom: 1px solid rgba(244, 241, 222, 0.05);
+        }
+
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .about h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: var(--accent-beige);
+        }
+
+        .about p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            text-align: center;
+            margin-bottom: 40px;
+            color: var(--accent-beige);
+            padding-top: 40px;
+        }
+
+        .collections {
+            padding: 40px 0;
+        }
+
+        .category-block {
+            margin-bottom: 60px;
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(244, 241, 222, 0.08);
+            box-shadow: var(--card-shadow);
+        }
+
+        .category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 25px;
+            border-bottom: 1px solid rgba(244, 241, 222, 0.1);
+            padding-bottom: 15px;
+        }
+
+        .category-title {
+            font-size: 1.5rem;
+            color: var(--accent-orange);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .filters-bar {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-select,
+        .filter-btn {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            border: 1px solid rgba(244, 241, 222, 0.2);
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .filter-select:focus,
+        .filter-btn:hover {
+            border-color: var(--accent-orange);
+            outline: none;
+        }
+
+        .filter-btn.active {
+            background-color: var(--accent-orange);
+            border-color: var(--accent-orange);
+            color: #fff;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .item-card {
+            background-color: var(--bg-deep);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(244, 241, 222, 0.05);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .item-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(224, 122, 95, 0.4);
+        }
+
+        .card-img-placeholder {
+            height: 140px;
+            background: linear-gradient(135deg, var(--soft-brown), var(--bg-card));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            position: relative;
+        }
+
+        .card-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: var(--accent-beige);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .card-body {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            justify-content: space-between;
+        }
+
+        .card-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--accent-beige);
+        }
+
+        .card-info {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+
+        .card-desc {
+            font-size: 0.9rem;
+            color: var(--text-main);
+            margin-bottom: 15px;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: var(--accent-orange);
+            font-weight: 600;
+            border-top: 1px solid rgba(244, 241, 222, 0.05);
+            padding-top: 10px;
+        }
+
+        .mood-section {
+            padding: 60px 0;
+            background-color: rgba(37, 40, 54, 0.3);
+            border-top: 1px solid rgba(244, 241, 222, 0.05);
+        }
+
+        .mood-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .mood-tab {
+            background-color: var(--bg-card);
+            border: 1px solid rgba(244, 241, 222, 0.15);
+            padding: 12px 24px;
+            border-radius: 30px;
+            color: var(--text-main);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .mood-tab.active,
+        .mood-tab:hover {
+            background-color: var(--accent-orange);
+            border-color: var(--accent-orange);
+            color: #fff;
+        }
+
+        .mood-content-panel {
+            display: none;
+        }
+
+        .mood-content-panel.active {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .top-section {
+            padding: 60px 0;
+        }
+
+        .top-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .top-item {
+            background: var(--bg-card);
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(244, 241, 222, 0.08);
+            gap: 20px;
+            transition: var(--transition);
+        }
+
+        .top-item:hover {
+            transform: translateX(5px);
+            border-color: var(--accent-orange);
+        }
+
+        .top-rank {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent-orange);
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .top-details {
+            flex-grow: 1;
+        }
+
+        .top-name {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--accent-beige);
+        }
+
+        .top-meta {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .top-rating {
+            background-color: var(--accent-orange);
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .contacts-section {
+            padding: 80px 0;
+            background-color: rgba(37, 40, 54, 0.5);
+            border-top: 1px solid rgba(244, 241, 222, 0.05);
+        }
+
+        .contacts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .contact-info-block h3 {
+            color: var(--accent-beige);
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .contact-info-block p {
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            list-style: none;
+        }
+
+        .social-links a {
+            background-color: var(--bg-card);
+            color: var(--accent-beige);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: var(--transition);
+            border: 1px solid rgba(244, 241, 222, 0.1);
+        }
+
+        .social-links a:hover {
+            background-color: var(--accent-orange);
+            color: #fff;
+        }
+
+        .contact-form {
+            background-color: var(--bg-card);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid rgba(244, 241, 222, 0.08);
+            box-shadow: var(--card-shadow);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            color: var(--accent-beige);
+        }
+
+        .form-control {
+            width: 100%;
+            background-color: var(--bg-deep);
+            border: 1px solid rgba(244, 241, 222, 0.2);
+            padding: 12px;
+            border-radius: 8px;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent-orange);
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .submit-btn {
+            background-color: var(--accent-orange);
+            color: #fff;
+            border: none;
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .submit-btn:hover {
+            background-color: var(--accent-orange-hover);
+        }
+
+        .form-message {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .form-message.success {
+            background-color: rgba(46, 204, 113, 0.2);
+            color: #2ecc71;
+            border: 1px solid #2ecc71;
+            display: block;
+        }
+
+        footer {
+            background-color: #12141A;
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid rgba(244, 241, 222, 0.05);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        footer p {
+            margin-bottom: 10px;
+        }
+
+        footer span {
+            color: var(--accent-orange);
+        }
+
+        /* Responsive Media Queries */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: var(--bg-deep);
+                padding: 20px;
+                border-bottom: 1px solid rgba(244, 241, 222, 0.1);
+                box-shadow: var(--card-shadow);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .category-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .filters-bar {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .filter-select {
+                flex-grow: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="container nav-container">
+            <a href="#" class="logo">
+                <span>☕</span> Тёплый вечер
+            </a>
+            <button class="menu-toggle" id="menuToggle" aria-label="Открыть меню">☰</button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#movies">Фильмы</a></li>
+                <li><a href="#series">Сериалы</a></li>
+                <li><a href="#books">Книги</a></li>
+                <li><a href="#games">Игры</a></li>
+                <li><a href="#podcasts">Подкасты</a></li>
+                <li><a href="#about">О проекте</a></li>
+                <li><a href="#mood">Настроение</a></li>
+                <li><a href="#top">Топ</a></li>
+                <li><a href="#contacts">Контакты</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero reveal">
+            <div class="container">
+                <h1>Чем хотите заняться сегодня?</h1>
+                <p>Уютные подборки под настроение, плед и чашку чая. Без долгих поисков — выберите категорию и
+                    наслаждайтесь вечером.</p>
+
+                <div class="hero-cards">
+                    <a href="#movies" class="hero-card-btn">
+                        <span>🎬</span>
+                        Фильмы
+                    </a>
+                    <a href="#series" class="hero-card-btn">
+                        <span>📺</span>
+                        Сериалы
+                    </a>
+                    <a href="#books" class="hero-card-btn">
+                        <span>📚</span>
+                        Книги
+                    </a>
+                    <a href="#games" class="hero-card-btn">
+                        <span>🎮</span>
+                        Игры
+                    </a>
+                    <a href="#podcasts" class="hero-card-btn">
+                        <span>🎧</span>
+                        Подкасты
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="about reveal" id="about">
+            <div class="container about-content">
+                <h2>О проекте «Тёплый вечер»</h2>
+                <p>Мы знаем, как трудно порой сделать выбор после тяжёлого дня. Десятки сервисов и бесконечные списки
+                    отнимают больше времени, чем сам отдых. Наш сайт создан для того, чтобы сэкономить ваше время и
+                    подарить атмосферу уюта. Простые фильтры, душевные рекомендации и только самое интересное для
+                    аудитории от 16 до 35 лет.</p>
+            </div>
+        </section>
+
+        <section class="collections container">
+            <h2 class="section-title reveal">Тематические подборки</h2>
+
+            <!-- Фильмы -->
+            <div class="category-block reveal" id="movies">
+                <div class="category-header">
+                    <div class="category-title reveal">🎬 Фильмы</div>
+                    <div class="filters-bar">
+                        <select class="filter-select movie-genre">
+                            <option value="all">Все жанры</option>
+                            <option value="comedy">Комедия</option>
+                            <option value="drama">Драма</option>
+                            <option value="sci-fi">Фантастика</option>
+                            <option value="horror">Ужасы</option>
+                        </select>
+                        <select class="filter-select movie-year">
+                            <option value="all">Любой год</option>
+                            <option value="2023">2023</option>
+                            <option value="2022">2022</option>
+                            <option value="classic">Классика</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="cards-grid movie-cards">
+                    <div class="item-card" data-genre="comedy" data-year="2023">
+                        <div class="card-img-placeholder">🎬<div class="card-badge">Комедия</div>
+                        </div>
+                        <div class="card-body">
+                            <div>
+                                <h3 class="card-title">Французский попутчик</h3>
+                                <div class="card-info">2023 • Рейтинг 7.8</div>
+                                <p class="card-desc">Лёгкая и светлая комедия о случайной встрече в поезде, которая
+                                    меняет всё.</p>
+                            </div>
+                            <div class="card-footer"><span>Смотреть</span> ★ 7.8</div>
+                        </div>
+                    </div>
+                    <div class="item-card" data-genre="drama" data-year="2022">
+                        <div class="card-img-placeholder">🎬<div class="card-badge">Драма</div>
+                        </div>
+                        <div class="card-body">
+                            <div>
+                                <h3 class="card-title">Убежище у маяка</h3>
+                                <div class="card-info">2022 • Рейтинг 8.3</div>
+                                <p class="card-desc">Пронзительная история о прощении, одиночестве и тёплом океанском
+                                    ветре.</p>
+                            </div>
+                            <div class="card-footer"><span>Смотреть</span> ★ 8.3</div>
+                        </div>
+                    </div>
+                    <div class="item-card" data-genre="sci-fi" data-year="2023">
+                        <div class="card-img-placeholder">🎬<div class="card-badge">Фантастика</div>
+                        </div>
+                        <div class="card-body">
+                            <div>
+                                <h3 class="card-title">Эхо далёких звезд</h3>
+                                <div class="card-info">2023 • Рейтинг 8.0</div>
+                                <p class="card-desc">Космическое путешествие в поисках потерянного сигнала с Земли.</p>
+                            </div>
+                            <div class="card-footer"><span>Смотреть</span> ★ 8.0</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Сериалы -->
+            <div class="category-block reveal" id="series">
+                <div class="category-header">
+                    <div class="category-title reveal">📺 Сериалы</div>
+                    <div class="filters-bar">
+                        <select class="filter-select series-genre">
+                            <option value="all">Все жанры</option>
+                            <option value="detective">Детектив</option>
+                            <option value="sitcom">Ситком</option>
+                            <option value="fantasy">Фэнтези</option>
+                        </select>
+                        <button class="filter-btn series-length active" data-length="all">Все</button>
+                        <button class="filter-btn series-length" data-length="short">Короткий (1 сезон)</button>
+                        <button class="filter-btn series-length" data-length="long">Длинный</button>
+                    </div>
+                </div>
+                <div class="cards-grid series-cards">
+                    <div class="item-card" data-genre="sitcom" data-length="short">
+                        <div class="card-img-placeholder">📺<div class="card-badge">1 сезон</div>
+                        </div>
+                        <div class="card-body">
+                            <div>
+                                <h3 class="card-title">Кофейня на углу</h3>
+                                <div class="card-info">Ситком • 1 сезон • 8 серий</div>
+                                <p class="card-desc">Уютные будни бариста и его эксцентричных постоянных гостей.</p>
+                            </div>
+                            <div class="card-footer"><span>Сериал</span> ★ 8.1</div>
+                        </div>
+                    </div>
+                    <div class="item-card" data-genre="detective" data-length="long">
+                        <div class="card-img-placeholder">📺<div class="card-badge">Много сезонов</div>
+                        </div>
+                        <div class="card-body">
+                            <div>
+                                <h3 class="card-title">Туманный Альбион</h3>
+                                <div class="card-info">Детектив • 4 сезона</div>
+                                <p class="card-desc">Дождливый провинциальный городок, загадочные тайны и гениальный
+                                    сыщик.</p>
+                            </div>
+                            <div class="card-footer"><span>Сериал</span> ★ 8.6</div>
+                        </div>
+                    </div>
+                    <div class="item-card" data-genre="fantasy" data-length="short">
+                        <div class="card-img-placeholder">📺<div class="card-badge">1 сезон</div>
+                        </div>
+                        <div class="card-body">
+                            <div>
+                                <h3 class="card-title">Хранитель архива</h3>
+                                <div class="card-info">Фэнтези • 1 сезон • 6 серий</div>
+                                <p class="card-desc">Магические фолианты оживают по ночам в старинной библиотеке.</p>
+                            </div>
+                            <div class="card-footer"><span>Сериал</span> ★ 7.9</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Книги -->
+            <div class="category-block reveal" id="books">
+                <div class="category-header">
+                    <div class="category-title reveal">📚 Книги</div>
+                    <div class="filters-bar">
+                        <select class="filter-select book-genre">
+                            <option value="all">Все жанры</option>
+                            <option value="prose">Современная проза</option>
+                            <option value="fantasy">Фэнтези</option>
+                            <option value="non-fiction">Нон-фикшн</option>
+                        </select>
+                        <select class="filter-select book-author">
+                            <option value="all">Все авторы</option>
+                            <option value="murakami">Х. Мураками</option>
+                            <option value="gaiman">Н. Гейман</option>
+                            <option value="franzen">Дж. Франзен</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="cards-grid book-cards">
+                    <div class="item-card" data-genre="prose" data-author="murakami">
+                        <div class="card-img-placeholder">📚<div class="card-badge">Проза</div>
+                        </div>
+                        <div class="card-body">
+                            <div>
+                                <h3 class="card-title">Кафка на пляже</h3>
+                                <div class="card-info">Автор: Харуки Мураками</div>
+                                <p class="card-desc">Магический реализм, джаз, коты и бесконечные дороги японских
+                                    провинций.</p>
+                            </div>
+                            <div class="card-footer"><span>Читать</span> 320 стр.</div>
+                        </div>
+                    </div>
+                    <div class="item-card" data-genre="fantasy" data-author="gaiman">
+                        <div class="card-img-placeholder">📚<div class="card-badge">Фэнтези</div>
+                        </div>
+                        <div class="card-body">
+                            <div>
+                                <h3 class="card-title">Океан в конце улицы</h3>
+                                <div class="card-info">Автор: Нил Гейман</div>
+                                <p class="card-desc">Трогательная сказка о детских воспоминаниях и древней магии.</p>
+                            </div>
+                            <div class="card-footer"><span>Читать</span> 240 стр.</div>
+                        </div>
+                    </div>
+                    <div class="item-card" data-genre="non-fiction" data-author="franzen">
+                        <div class="card-info" style="display:none">Автор: Джонатан Франзен</div>
+                        <div class="card-img-placeholder">📚<div class="card-badge">Нон-фикшн</div>
+                        </div>
+                        <div class="card-body">
+                            <div>
+                                <h3 class="card-title">Конец одиночества</h3>
+                                <div class="card-info">Автор: Современный автор</div>
+                                <p class="card-desc">Глубокие размышления о цифровом мире и искусстве искреннего
+                                    общения.</p>
+                            </div>
+                            <div class="card-footer"><span>Читать</span> 280 стр.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Игры -->
+            <div class="category-block reveal" id="games">
+                <div class="category-header">
+                    <div class="category-title reveal">🎮 Игры</div>
+                    <div class="filters-bar">
+                        <select class="filter-select game-genre">
+                            <option value="all">Все жанры</option>
+                            <option value="indie">Инди / Уютные</option>
+                            <option value="rpg">RPG / Приключения</option>
+                            <option value="puzzle">Головоломки</option>
+                        </select>
+                        <button class="filter-btn game-trend" data-trend="all">Все</button>
+                        <button class="filter-btn game-trend" data-trend="trending">🔥 В тренде</button>
+                    </div>
+                </div>
+                <div class="cards-grid game-cards">
+                    <div class="item-card" data-genre="indie" data-trend="trending">
+                        <div class="card-img-placeholder">🎮<div class="card-badge">В тренде</div>
+                        </div>
+                        <div class="card-body">
+                            <div>
+                                <h3 class="card-title">Coffee Talk</h3>
+                                <div class="card-info">Инди • Симулятор бариста</div>
+                                <p class="card-desc">Слушайте истории ночных посетителей и заваривайте согревающие
+                                    напитки.</p>
+                            </div>
+                            <div class="card-footer"><span>Играть</span> ПК / Консоли</div>
+                        </div>
+                    </div>
+                    <div class="item-card" data-genre="puzzle" data-trend="trending">
+                        <div class="card-img-placeholder">🎮<div class="card-badge">В тренде</div>
+                        </div>
+                        <div class="card-body">
+                            <div>
+                                <h3 class="card-title">Unpacking</h3>
+                                <div class="card-info">Головоломка • Расслабляющая</div>
+                                <p class="card-desc">Медитативный опыт распаковки коробок при переезде в новый дом.</p>
+                            </div>
+                            <div class="card-footer"><span>Играть</span> Все платформы</div>
+                        </div>
+                    </div>
+                    <div class="item-card" data-genre="rpg" data-trend="normal">
+                        <div class="card-img-placeholder">🎮<div class="card-badge">Классика</div>
+                        </div>
+                        <div class="card-body">
+                            <div>
+                                <h3 class="card-title">Disco Elysium</h3>
+                                <div class="card-info">RPG • Детектив</div>
+                                <p class="card-desc">Глубокий диалоговый детектив с выдающимся литературным стилем.</p>
+                            </div>
+                            <div class="card-footer"><span>Играть</span> ПК / Консоли</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Подкасты -->
+            <div class="category-block reveal" id="podcasts">
+                <div class="category-header">
+                    <div class="category-title reveal">🎧 Подкасты</div>
+                    <div class="filters-bar">
+                        <select class="filter-select podcast-genre">
+                            <option value="all">Все жанры</option>
+                            <option value="culture">Культура и искусство</option>
+                            <option value="science">Наука и лайфстайл</option>
+                            <option value="stories">Жизненные истории</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="cards-grid podcast-cards">
+                    <div class="item-card" data-genre="culture">
+                        <div class="card-img-placeholder">🎧<div class="card-badge">Культура</div>
+                        </div>
+                        <div class="card-body">
+                            <div>
+                                <h3 class="card-title">Вечерний чай с философом</h3>
+                                <div class="card-info">Эпизодов: 42 • Длительность: 45 мин</div>
+                                <p class="card-desc">Неспешные беседы о литературе, кино и поисках смысла жизни.</p>
+                            </div>
+                            <div class="card-footer"><span>Слушать</span> Выпуск #12</div>
+                        </div>
+                    </div>
+                    <div class="item-card" data-genre="science">
+                        <div class="card-img-placeholder">🎧<div class="card-badge">Наука</div>
+                        </div>
+                        <div class="card-body">
+                            <div>
+                                <h3 class="card-title">Как устроен наш сон</h3>
+                                <div class="card-info">Эпизодов: 18 • Длительность: 30 мин</div>
+                                <p class="card-desc">Научные советы для качественного отдыха и борьбы со стрессом.</p>
+                            </div>
+                            <div class="card-footer"><span>Слушать</span> Выпуск #05</div>
+                        </div>
+                    </div>
+                    <div class="item-card" data-genre="stories">
+                        <div class="card-img-placeholder">🎧<div class="card-badge">Истории</div>
+                        </div>
+                        <div class="card-body">
+                            <div>
+                                <h3 class="card-title">Письма из путешествий</h3>
+                                <div class="card-info">Эпизодов: 24 • Длительность: 40 мин</div>
+                                <p class="card-desc">Уютные аудиозарисовки из самых отдаленных уголков планеты.</p>
+                            </div>
+                            <div class="card-footer"><span>Слушать</span> Выпуск #19</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mood-section reveal" id="mood">
+            <div class="container">
+                <h2 class="section-title reveal">Выбор по настроению</h2>
+                <div class="mood-tabs">
+                    <button class="mood-tab active" data-mood="laugh">😄 Хочу посмеяться</button>
+                    <button class="mood-tab" data-mood="cry">🥺 Хочу поплакать</button>
+                    <button class="mood-tab" data-mood="think">🤔 Хочу подумать</button>
+                </div>
+
+                <div class="mood-content-panel active" id="panel-laugh">
+                    <div class="item-card">
+                        <div class="card-img-placeholder">📺<div class="card-badge">Сериал</div>
+                        </div>
+                        <div class="card-body">
+                            <div>
+                                <h3 class="card-title">Кофейня на углу</h3>
+                                <div class="card-info">Ситком для отличного настроения</div>
+                                <p class="card-desc">Лёгкие шутки и уютная атмосфера поднимают тонус с первых минут.</p>
+                            </div>
+                            <div class="card-footer"><span>Тёплый выбор</span> ★ 8.1</div>
+                        </div>
+                    </div>
+                    <div class="item-card">
+                        <div class="card-img-placeholder">🎮<div class="card-badge">Игра</div>
+                        </div>
+                        <div class="card-body">
+                            <div>
+                                <h3 class="card-title">Coffee Talk</h3>
+                                <div class="card-info">Уютный симулятор</div>
+                                <p class="card-desc">Добрый юмор и милые беседы под расслабляющий лоу-фай бит.</p>
+                            </div>
+                            <div class="card-footer"><span>Тёплый выбор</span> ★ 9.0</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mood-content-panel" id="panel-cry">
+                    <div class="item-card">
+                        <div class="card-img-placeholder">🎬<div class="card-badge">Фильм</div>
+                        </div>
+                        <div class="card-body">
+                            <div>
+                                <h3 class="card-title">Убежище у маяка</h3>
+                                <div class="card-info">Эмоциональная драма</div>
+                                <p class="card-desc">История, которая тронет самые потаённые струны вашей души.</p>
+                            </div>
+                            <div class="card-footer"><span>Тёплый выбор</span> ★ 8.3</div>
+                        </div>
+                    </div>
+                    <div class="item-card">
+                        <div class="card-img-placeholder">📚<div class="card-badge">Книга</div>
+                        </div>
+                        <div class="card-body">
+                            <div>
+                                <h3 class="card-title">Океан в конце улицы</h3>
+                                <div class="card-info">Нил Гейман</div>
+                                <p class="card-desc">Пронзительная сказка о взрослении и потере.</p>
+                            </div>
+                            <div class="card-footer"><span>Тёплый выбор</span> ★ 8.7</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mood-content-panel" id="panel-think">
+                    <div class="item-card">
+                        <div class="card-img-placeholder">🎧<div class="card-badge">Подкаст</div>
+                        </div>
+                        <div class="card-body">
+                            <div>
+                                <h3 class="card-title">Вечерний чай с философом</h3>
+                                <div class="card-info">Культура и размышления</div>
+                                <p class="card-desc">Интересные вопросы о жизни, науке и устройстве Вселенной.</p>
+                            </div>
+                            <div class="card-footer"><span>Тёплый выбор</span> ★ 8.5</div>
+                        </div>
+                    </div>
+                    <div class="item-card">
+                        <div class="card-img-placeholder">🎮<div class="card-badge">Игра</div>
+                        </div>
+                        <div class="card-body">
+                            <div>
+                                <h3 class="card-title">Disco Elysium</h3>
+                                <div class="card-info">Философская RPG</div>
+                                <p class="card-desc">Погружение в комплексные внутренние диалоги и поиск ответов.</p>
+                            </div>
+                            <div class="card-footer"><span>Тёплый выбор</span> ★ 9.2</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="top-section container reveal" id="top">
+            <h2 class="section-title reveal">Топ недели</h2>
+            <div class="top-list">
+                <div class="top-item">
+                    <div class="top-rank">1</div>
+                    <div class="top-details">
+                        <div class="top-name">Coffee Talk</div>
+                        <div class="top-meta">Игра • Самый популярный выбор уюта</div>
+                    </div>
+                    <div class="top-rating">★ 9.4</div>
+                </div>
+                <div class="top-item">
+                    <div class="top-rank">2</div>
+                    <div class="top-details">
+                        <div class="top-name">Французский попутчик</div>
+                        <div class="top-meta">Фильм • Комедия недели</div>
+                    </div>
+                    <div class="top-rating">★ 9.1</div>
+                </div>
+                <div class="top-item">
+                    <div class="top-rank">3</div>
+                    <div class="top-details">
+                        <div class="top-name">Убежище у маяка</div>
+                        <div class="top-meta">Фильм • Драма</div>
+                    </div>
+                    <div class="top-rating">★ 8.9</div>
+                </div>
+                <div class="top-item">
+                    <div class="top-rank">4</div>
+                    <div class="top-details">
+                        <div class="top-name">Вечерний чай с философом</div>
+                        <div class="top-meta">Подкаст • Топ прослушиваний</div>
+                    </div>
+                    <div class="top-rating">★ 8.8</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="contacts-section reveal" id="contacts">
+            <div class="container contacts-grid">
+                <div class="contact-info-block">
+                    <h3 class="reveal">Оставайтесь на связи</h3>
+                    <p>Есть идеи для подборок или хотите поделиться отзывом о сайте? Напишите нам, мы всегда рады тёплым
+                        беседам за чашкой чая.</p>
+                    <p><strong>Email:</strong> cozyevening@service.ru</p>
+                    <ul class="social-links">
+                        <li><a href="#" aria-label="Telegram">✈️</a></li>
+                        <li><a href="#" aria-label="VK">💬</a></li>
+                        <li><a href="#" aria-label="YouTube">📺</a></li>
+                    </ul>
+                </div>
+                <div class="contact-form">
+                    <form id="feedbackForm">
+                        <div class="form-group">
+                            <label for="name">Ваше имя</label>
+                            <input type="text" id="name" class="form-control" placeholder="Алексей" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Ваш Email</label>
+                            <input type="email" id="email" class="form-control" placeholder="example@mail.ru" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Сообщение или идея</label>
+                            <textarea id="message" class="form-control" placeholder="Посоветуйте сериал на вечер..."
+                                required></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn">Отправить сообщение</button>
+                        <div id="formMessage" class="form-message" role="status" aria-live="polite">
+                            <span class="form-message-icon">✓</span>
+                            <span>Спасибо! Ваше сообщение принято</span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="reveal">
+        <div class="container">
+            <p>&copy; 2026 <span>«Тёплый вечер»</span>. Все права защищены.</p>
+            <p>Ваш персональный путеводитель по уютному отдыху.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Mobile Menu Toggle
+            const menuToggle = document.getElementById('menuToggle');
+            const navLinks = document.getElementById('navLinks');
+
+            menuToggle.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+            });
+
+            // Close mobile menu on link click
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navLinks.classList.remove('active');
+                });
+            });
+
+            // Filtering Logic helper function
+            function filterCards(cardSelector, genreSelector, extraSelector = null, extraType = null) {
+                const cards = document.querySelectorAll(cardSelector);
+                const genreVal = document.querySelector(genreSelector).value;
+                let extraVal = extraSelector ? document.querySelector(extraSelector).value : 'all';
+
+                cards.forEach(card => {
+                    const cardGenre = card.getAttribute('data-genre');
+                    let matchesExtra = true;
+
+                    if (extraSelector) {
+                        const cardExtraAttr = card.getAttribute(extraType);
+                        if (extraVal !== 'all' && cardExtraAttr !== extraVal) {
+                            matchesExtra = false;
+                        }
+                    }
+
+                    const matchesGenre = (genreVal === 'all' || cardGenre === genreVal);
+
+                    if (matchesGenre && matchesExtra) {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            }
+
+            // Movie Filters
+            const movieGenre = document.querySelector('.movie-genre');
+            const movieYear = document.querySelector('.movie-year');
+            if (movieGenre && movieYear) {
+                movieGenre.addEventListener('change', () => filterCards('.movie-cards .item-card', '.movie-genre', '.movie-year', 'data-year'));
+                movieYear.addEventListener('change', () => filterCards('.movie-cards .item-card', '.movie-genre', '.movie-year', 'data-year'));
+            }
+
+            // Series Filters & Length Buttons
+            const seriesGenre = document.querySelector('.series-genre');
+            const lengthBtns = document.querySelectorAll('.series-length');
+            let currentLength = 'all';
+
+            if (seriesGenre) {
+                seriesGenre.addEventListener('change', filterSeries);
+            }
+
+            lengthBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    lengthBtns.forEach(b => b.classList.remove('active'));
+                    e.target.classList.add('active');
+                    currentLength = e.target.getAttribute('data-length');
+                    filterSeries();
+                });
+            });
+
+            function filterSeries() {
+                const genreVal = seriesGenre.value;
+                document.querySelectorAll('.series-cards .item-card').forEach(card => {
+                    const cardGenre = card.getAttribute('data-genre');
+                    const cardLength = card.getAttribute('data-length');
+                    const matchesGenre = (genreVal === 'all' || cardGenre === genreVal);
+                    const matchesLength = (currentLength === 'all' || cardLength === currentLength);
+
+                    card.style.display = (matchesGenre && matchesLength) ? 'flex' : 'none';
+                });
+            }
+
+            // Book Filters
+            const bookGenre = document.querySelector('.book-genre');
+            const bookAuthor = document.querySelector('.book-author');
+            if (bookGenre && bookAuthor) {
+                bookGenre.addEventListener('change', () => filterBooks());
+                bookAuthor.addEventListener('change', () => filterBooks());
+            }
+
+            function filterBooks() {
+                const genreVal = bookGenre.value;
+                const authorVal = bookAuthor.value;
+                document.querySelectorAll('.book-cards .item-card').forEach(card => {
+                    const cardGenre = card.getAttribute('data-genre');
+                    const cardAuthor = card.getAttribute('data-author');
+                    const matchesGenre = (genreVal === 'all' || cardGenre === genreVal);
+                    const matchesAuthor = (authorVal === 'all' || cardAuthor === authorVal);
+
+                    card.style.display = (matchesGenre && matchesAuthor) ? 'flex' : 'none';
+                });
+            }
+
+            // Game Filters & Trend Buttons
+            const gameGenre = document.querySelector('.game-genre');
+            const trendBtns = document.querySelectorAll('.game-trend');
+            let currentTrend = 'all';
+
+            if (gameGenre) {
+                gameGenre.addEventListener('change', filterGames);
+            }
+
+            trendBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    trendBtns.forEach(b => b.classList.remove('active'));
+                    e.target.classList.add('active');
+                    currentTrend = e.target.getAttribute('data-trend');
+                    filterGames();
+                });
+            });
+
+            function filterGames() {
+                const genreVal = gameGenre.value;
+                document.querySelectorAll('.game-cards .item-card').forEach(card => {
+                    const cardGenre = card.getAttribute('data-genre');
+                    const cardTrend = card.getAttribute('data-trend');
+                    const matchesGenre = (genreVal === 'all' || cardGenre === genreVal);
+                    const matchesTrend = (currentTrend === 'all' || cardTrend === currentTrend);
+
+                    card.style.display = (matchesGenre && matchesTrend) ? 'flex' : 'none';
+                });
+            }
+
+            // Podcast Filters
+            const podcastGenre = document.querySelector('.podcast-genre');
+            if (podcastGenre) {
+                podcastGenre.addEventListener('change', () => {
+                    const val = podcastGenre.value;
+                    document.querySelectorAll('.podcast-cards .item-card').forEach(card => {
+                        const cardGenre = card.getAttribute('data-genre');
+                        card.style.display = (val === 'all' || cardGenre === val) ? 'flex' : 'none';
+                    });
+                });
+            }
+
+            // Mood Tabs Switcher
+            const moodTabs = document.querySelectorAll('.mood-tab');
+            const moodPanels = document.querySelectorAll('.mood-content-panel');
+
+            moodTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    moodTabs.forEach(t => t.classList.remove('active'));
+                    moodPanels.forEach(p => p.classList.remove('active'));
+
+                    tab.classList.add('active');
+                    const mood = tab.getAttribute('data-mood');
+                    const targetPanel = document.getElementById(`panel-${mood}`);
+                    if (targetPanel) {
+                        targetPanel.classList.add('active');
+                    }
+                });
+            });
+
+            // Contact Form Submission — Inline Success Message
+            const feedbackForm = document.getElementById('feedbackForm');
+            const formMessage = document.getElementById('formMessage');
+            let messageTimer;
+
+            if (feedbackForm) {
+                feedbackForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    feedbackForm.reset();
+                    formMessage.classList.remove('hiding');
+                    formMessage.classList.add('success');
+                    clearTimeout(messageTimer);
+                    messageTimer = setTimeout(() => {
+                        formMessage.classList.add('hiding');
+                        setTimeout(() => {
+                            formMessage.classList.remove('success', 'hiding');
+                        }, 400);
+                    }, 4000);
+                });
+            }
+
+            // Scroll Reveal with Intersection Observer
+            document.querySelectorAll('.category-block .item-card, .hero-card-btn, .top-item').forEach(card => {
+                card.classList.add('reveal');
+                const siblings = Array.from(card.parentElement.children)
+                    .filter(el => el.classList.contains('item-card') || el.classList.contains('hero-card-btn') || el.classList.contains('top-item'));
+                const index = siblings.indexOf(card);
+                card.style.transitionDelay = `${Math.min(index * 0.08, 0.6)}s`;
+            });
+
+            const revealElements = document.querySelectorAll('.reveal');
+
+            if ('IntersectionObserver' in window) {
+                const revealObserver = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, {
+                    threshold: 0.12,
+                    rootMargin: '0px 0px -40px 0px'
+                });
+
+                revealElements.forEach(el => revealObserver.observe(el));
+            } else {
+                // Fallback for browsers without IntersectionObserver
+                revealElements.forEach(el => el.classList.add('visible'));
+            }
+        });
+    </script>
+</body>
+
+</html>
